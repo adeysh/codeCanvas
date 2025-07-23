@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodeCanvas</title>
+    <link rel="shortcut icon" href="/assets/favicon.svg" type="image/x-icon">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/98cfcb559a.js" crossorigin="anonymous"></script>
+
+    <!-- CodeMirror CSS & JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/codemirror.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/codemirror.min.js"></script>
+
+    <!-- CodeMirror Modes -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/mode/xml/xml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/mode/css/css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/addon/selection/active-line.min.js"
+        integrity="sha512-TsecZtfqEhbHwO6rluZPT1HwhmvJ6XdhKYF+lfdRy82b5dLkf7WA++o1yOKMn/gLapbdWH+wJRInq1VYlLOhuw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Theme (Optional) -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/theme/material-darker.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/theme/default.min.css">
+
+
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <main>
+        <!-- Header -->
+        <section class="playground-intro">
+            <h1><span class="emoji">🛠️</span> CodeCanvas</h1>
+            <p>Craft. Test. Export. Your live coding playground.</p>
+        </section>
+
+        <div class="container playground">
+            <!-- Playground Header -->
+            <div class="playground__header">
+                <button type="button" id="run-btn" title="Run Code">
+                    <i class="fas fa-play"></i> Run
+                </button>
+
+                <button type="button" id="export-btn" title="Export Code as HTML">
+                    <i class="fas fa-download"></i> Export
+                </button>
+
+                <button type="button" id="reset-btn" title="Reset Code">
+                    <i class="fas fa-rotate-left"></i> Reset
+                </button>
+
+                <div class="template-wrapper" id="template-wrapper">
+                    <button type="button" id="template-btn" title="Choose a template">
+                        <i class="fas fa-code"></i> Templates
+                    </button>
+
+                    <div id="template-dropdown" class="template-dropdown hidden"></div>
+                </div>
+
+                <button type="button" id="theme-toggle-btn" title="Change Theme">
+                    <i class="fas fa-moon"></i> Theme
+                </button>
+            </div>
+
+            <!-- Main Editor + Preview Area -->
+            <div class="playground__main">
+                <!-- Editors Panel -->
+                <div class="playground-wrapper">
+                    <div class="playground-editors">
+                        <!-- HTML Editor -->
+                        <div class="playground-editor playground-editor--html">
+                            <button type="button" class="close-fullscreen" title="Exit Fullscreen">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+
+                            <div class="editor-header">
+                                <i class="fab fa-html5"></i> HTML
+
+                                <button type="button" class="fullscreen-btn" data-target="html-editor"
+                                    title="Fullscreen">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+
+                            <div id="html-editor" class="editor"></div>
+                        </div>
+
+                        <!-- CSS Editor -->
+                        <div class="playground-editor playground-editor--css">
+                            <button type="button" class="close-fullscreen" title="Exit Fullscreen">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+
+                            <div class="editor-header">
+                                <i class="fab fa-css3-alt"></i> CSS
+
+                                <button type="button" class="fullscreen-btn" data-target="css-editor"
+                                    title="Fullscreen">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+
+                            <div id="css-editor" class="editor"></div>
+                        </div>
+
+                        <!-- JS Editor -->
+                        <div class="playground-editor playground-editor--js">
+                            <button type="button" class="close-fullscreen" title="Exit Fullscreen">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+
+                            <div class="editor-header">
+                                <i class="fab fa-js"></i> JavaScript
+                                <button type="button" class="fullscreen-btn" data-target="js-editor" title="Fullscreen">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+
+                            <div id="js-editor" class="editor"></div>
+                        </div>
+                    </div>
+
+                    <div class="vertical-resizer"></div>
+                </div>
+
+                <!-- Preview Panel -->
+                <div class="playground__preview-container">
+                    <div class="preview-header"><i class="fas fa-desktop"></i> Live Preview</div>
+
+                    <iframe sandbox="allow-scripts" id="preview" frameborder="0" title="Live Code Preview"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- reset modal -->
+        <div id="reset-modal" class="modal">
+            <div class="modal-content">
+                <p>Are you sure you want to reset all code to default?</p>
+
+                <div class="modal-actions">
+                    <button type="button" id="confirm-reset" class="confirm">Yes, Reset</button>
+                    <button type="button" id="cancel-reset" class="cancel">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- export file name modal -->
+        <div id="exportModal" class="modal">
+            <div class="modal-content">
+                <p>Enter file name to export as HTML:</p>
+
+                <input type="text" id="filenameInput" placeholder="File-name" />
+
+                <div class="modal-actions">
+                    <button type="button" id="confirmExport" class="confirm">Export</button>
+                    <button type="button" id="cancelExport" class="cancel">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,611 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: sans-serif;
+    background: #1e1e1e;
+    color: #fff;
+}
+
+.playground-intro {
+    background: rgba(44, 44, 44, 0.2);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    border-radius: 0.5rem;
+    text-align: center;
+    margin: 2rem auto;
+    padding: 1rem 2rem;
+    max-width: 600px;
+    color: #ffffff;
+}
+
+body.light .playground-intro {
+    color: #1a1a1a;
+}
+
+.playground-intro h1 {
+    font-size: clamp(1rem, 0.76rem + 1.2000000000000002vw, 2.2rem);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.playground-intro .emoji {
+    display: inline-block;
+    font-size: clamp(1rem, 0.84rem + 0.8vw, 1.8rem);
+}
+
+.playground-intro p {
+    font-size: clamp(0.5rem, 0.4rem + 0.5vw, 1rem);
+    color: #bbbbbb;
+    line-height: 1.5;
+}
+
+body.light .playground-intro p {
+    color: #555555;
+}
+
+.container {
+    max-width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.playground__header {
+    background: #111;
+    padding: 0.625rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 0.625rem;
+}
+
+.playground__header button {
+    background: #333;
+    border: none;
+    color: white;
+    padding: 0.375em 0.75rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.playground__header button:hover {
+    background-color: #232323;
+}
+
+/* template dropdown */
+.template-wrapper {
+    position: relative;
+}
+
+.template-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #1e1e1e;
+    color: white;
+    border: 0.0625em solid #444;
+    border-radius: 0.25rem;
+    width: max-content;
+    min-width: 12.5rem;
+    z-index: 999;
+    padding: 8px 0;
+    box-shadow: 0 0.125em 0.375em rgba(0, 0, 0, 0.2);
+}
+
+.template-dropdown.hidden {
+    display: none;
+}
+
+.template-dropdown div {
+    border-radius: 0.25rem;
+    margin: 0 0.5rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
+.template-dropdown div:hover {
+    background: #333;
+}
+
+.playground__main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.playground-wrapper {
+    display: flex;
+    height: 100%;
+    max-height: 100vh;
+    overflow: hidden;
+}
+
+.playground-editors {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    width: 37.5rem;
+    min-width: 18.75rem;
+    overflow: hidden;
+    background: #2c2c2c;
+    height: 100%;
+}
+
+.playground-editor {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    border-bottom: 0.0625em solid #444;
+    transition: all 0.3s ease;
+}
+
+.editor-header {
+    padding: 0.5em 0.75rem;
+    background: #222;
+    font-weight: bold;
+}
+
+/* full screen */
+.editor-fullscreen {
+    position: fixed !important;
+    inset: 0;
+    z-index: 1000;
+    padding: 1rem;
+    transition: all 0.3s ease;
+    background: #1e1e1e;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    animation: fadeIn 0.3s forwards;
+}
+
+.playground-editor .close-fullscreen {
+    position: absolute;
+    top: 1.25rem;
+    right: 2.5rem;
+    font-size: 1.375rem;
+    background: none;
+    color: #ccc;
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
+    display: none;
+}
+
+.playground-editor .close-fullscreen:hover {
+    color: #fff;
+}
+
+.playground-editor.editor-fullscreen .close-fullscreen {
+    display: block;
+}
+
+.playground-editor.editor-fullscreen .fullscreen-btn {
+    display: none;
+}
+
+.fullscreen-btn {
+    float: right;
+    background: none;
+    border: none;
+    color: #ccc;
+    cursor: pointer;
+    font-size: 0.875rem;
+    margin-left: auto;
+}
+
+.fullscreen-btn:hover {
+    color: #fff;
+}
+
+
+.editor {
+    flex: 1;
+    overflow: hidden;
+    height: 100%;
+}
+
+.CodeMirror {
+    font-family: 'Fira Code', monospace;
+    flex: 1;
+    height: 100%;
+    font-size: 0.75rem;
+}
+
+.CodeMirror-line {
+    line-height: 1.5 !important;
+}
+
+.CodeMirror pre.CodeMirror-line:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+    transition: background-color 0.2s ease;
+}
+
+.CodeMirror-activeline-background {
+    background-color: rgba(255, 255, 255, 0.06);
+    transition: background-color 0.3s ease;
+}
+
+
+.CodeMirror-gutters {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.75rem;
+    line-height: 1.5 !important;
+}
+
+.CodeMirror-activeline .CodeMirror-gutter-elt {
+    background-color: rgba(255, 255, 255, 0.06);
+}
+
+.CodeMirror-activeline .CodeMirror-gutter-elt {
+    color: #fff;
+}
+
+/* Resizer styles */
+.vertical-resizer {
+    width: 0.375rem;
+    cursor: col-resize;
+    background-color: #444;
+}
+
+.vertical-resizer:hover {
+    background-color: #666;
+}
+
+
+.playground__preview-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border-left: 0.125em solid #333;
+}
+
+.preview-header {
+    padding: 0.5em 0.75rem;
+    background: #222;
+    font-weight: bold;
+}
+
+iframe#preview {
+    flex: 1;
+    width: 100%;
+    border: none;
+}
+
+/* scrollbar */
+
+.CodeMirror-scrollbar-filler,
+/* vertical gap at right edge */
+.CodeMirror-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #555 #222;
+}
+
+/* For WebKit browsers (Chrome, Edge, Safari) */
+.CodeMirror-scroll::-webkit-scrollbar {
+    width: 0.625rem;
+    height: 0.625rem;
+}
+
+.CodeMirror-scroll::-webkit-scrollbar-track {
+    background: #222;
+}
+
+.CodeMirror-scroll::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 0.375rem;
+    border: 0.125em solid #222;
+}
+
+.CodeMirror-scroll::-webkit-scrollbar-thumb:hover {
+    background-color: #888;
+}
+
+/* modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    place-items: center;
+    font-family: sans-serif;
+}
+
+.modal-content {
+    background: #1e1e1e;
+    color: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    max-width: 25rem;
+    width: 90%;
+    text-align: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content input {
+    height: 1.5rem;
+    border: 0.0625em solid #444;
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.875rem;
+}
+
+.modal-actions {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.modal-actions button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.modal-actions .confirm {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.modal-actions .confirm:hover {
+    background-color: #c94334;
+}
+
+.modal-actions .cancel {
+    background-color: #444;
+    color: white;
+}
+
+.modal-actions .cancel:hover {
+    background-color: #343434;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* light theme */
+body.light {
+    background: #f5f5f5;
+    color: #000;
+}
+
+body.light .playground__header {
+    background: #eee;
+}
+
+body.light .playground__header button {
+    background: #ddd;
+    color: #000;
+}
+
+body.light .playground__header button:hover {
+    background-color: #ccc;
+}
+
+body.light .template-dropdown {
+    background: #fff;
+    color: #000;
+    border-color: #ccc;
+}
+
+body.light .template-dropdown div:hover {
+    background: #f0f0f0;
+}
+
+body.light .playground-editors {
+    background: #fafafa;
+}
+
+body.light .editor-header,
+body.light .preview-header {
+    background: #e0e0e0;
+    color: #000;
+}
+
+body.light .playground-editor {
+    border-color: #ccc;
+}
+
+body.light .modal-content {
+    background: #fff;
+    color: #000;
+}
+
+body.light .modal-actions .cancel {
+    background-color: #ccc;
+    color: #000;
+}
+
+body.light .modal-actions .cancel:hover {
+    background-color: #bbb;
+}
+
+body.light .modal-actions .confirm {
+    background-color: #e74c3c;
+}
+
+body.light .modal-actions .confirm:hover {
+    background-color: #c94334;
+}
+
+/* Scrollbar in light mode */
+body.light .CodeMirror-scroll::-webkit-scrollbar-track {
+    background: #f0f0f0;
+}
+
+body.light .CodeMirror-scroll::-webkit-scrollbar-thumb {
+    background-color: #999;
+    border: 0.125em solid #f0f0f0;
+}
+
+body.light .CodeMirror-scroll::-webkit-scrollbar-thumb:hover {
+    background-color: #666;
+}
+
+/* editor lines */
+body.light .CodeMirror pre.CodeMirror-line:hover {
+    background-color: #ededed;
+    transition: background-color 0.2s ease;
+}
+
+body.light .CodeMirror-activeline-background {
+    background-color: #dcdada;
+    transition: background-color 0.3s ease;
+}
+
+
+body.light .CodeMirror-gutters {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.75rem;
+    line-height: 1.5 !important;
+}
+
+body.light .CodeMirror-activeline .CodeMirror-gutter-elt {
+    background-color: #ccc;
+    color: #1e1e1e;
+}
+
+/* fullscreen */
+body.light .editor-fullscreen {
+    background-color: #f5f5f5;
+}
+
+body.light .fullscreen-btn {
+    float: right;
+    background: none;
+    border: none;
+    color: #7c7c7c;
+    cursor: pointer;
+    font-size: 0.875rem;
+    margin-left: auto;
+}
+
+body.light .fullscreen-btn:hover {
+    color: #1e1e1e;
+}
+
+/* Resizer styles */
+body.light .vertical-resizer {
+    width: 0.375rem;
+    cursor: col-resize;
+    background-color: #7c7c7c;
+}
+
+body.light .vertical-resizer:hover {
+    background-color: #666;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .playground__main {
+        flex-direction: column;
+    }
+
+    .playground-wrapper {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .playground__header {
+        justify-content: center;
+    }
+
+    .playground-editors {
+        width: 100%;
+        min-width: unset;
+        max-width: 100%;
+    }
+
+    .playground__preview-container {
+        border-left: none;
+        border-top: 0.125em solid #333;
+        height: 18.75rem;
+    }
+
+    iframe#preview {
+        height: 100%;
+    }
+
+    .vertical-resizer {
+        display: none;
+    }
+
+    .fullscreen-btn {
+        font-size: 1rem;
+    }
+
+    .editor-fullscreen {
+        padding: 0.5rem;
+    }
+
+    .playground-editor .close-fullscreen {
+        top: 0.625rem;
+        right: 0.625rem;
+    }
+}
+
+@media (max-width: 500px) {
+    .playground__header button {
+        font-size: 0.75rem;
+        padding: 0.3125em 0.625rem;
+    }
+
+    .editor-header,
+    .preview-header {
+        font-size: 0.875rem;
+        padding: 0.375em 0.625rem;
+    }
+
+    .modal-content {
+        padding: 1rem;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    .modal-actions {
+        flex-direction: column;
+    }
+
+    .modal-actions button {
+        width: 100%;
+    }
+
+    .CodeMirror {
+        font-size: 0.6875rem;
+    }
+
+    .playground-intro {
+        margin: 2rem 1rem;
+    }
+}
