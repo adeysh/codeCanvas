@@ -27,7 +27,9 @@ body {
 }
 
 body.light .playground-intro {
+    background: rgba(242, 240, 240, 0.2);
     color: #1a1a1a;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .playground-intro h1 {
